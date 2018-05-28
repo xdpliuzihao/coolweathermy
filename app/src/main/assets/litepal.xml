@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="cool_weather_my"></dbname>
+
+    <version value="1"></version>
+
+    <list>
+        <mapping class="com.example.qq910.coolweathermy.db.Province" />
+        <mapping class="com.example.qq910.coolweathermy.db.City" />
+        <mapping class="com.example.qq910.coolweathermy.db.County" />
+    </list>
+</litepal>
+
