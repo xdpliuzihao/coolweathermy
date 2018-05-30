@@ -7,6 +7,6 @@
         android:id="@+id/choose_fragment_s"
         android:name="com.example.qq910.coolweathermy.ChooseFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

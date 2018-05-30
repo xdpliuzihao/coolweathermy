@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,8 @@ public class ChooseFragment extends Fragment {
     private List<String> dataList = new ArrayList<>();
     private int currentLevel;//当前级别
     //    private List<Province> mProvinceList;
-        private List<Province> mProvinceList = new ArrayList<>();     ///////////////////试试把上面的换成这里的
-//    private List<City> mCityList;
+    private List<Province> mProvinceList = new ArrayList<>();     ///////////////////试试把上面的换成这里的
+    //    private List<City> mCityList;
     private List<City> mCityList = new ArrayList<>();///////////////////////////
     //    private List<County> mCountyList;
     private List<County> mCountyList = new ArrayList<>();///////////////////////////
@@ -83,10 +84,19 @@ public class ChooseFragment extends Fragment {
                     questCounty();
                 } else if (currentLevel == LEVEL_COUNTY) {
                     String weatherId = mCountyList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                    intent.putExtra("weather_id", weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (getActivity() instanceof MainActivity) {
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id", weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else if (getActivity() instanceof WeatherActivity) {
+                        WeatherActivity weatherActivity = (WeatherActivity) getActivity();
+                        weatherActivity.mDrawerLayout.closeDrawers();
+                        weatherActivity.mSwipeRefreshLayout.setRefreshing(true);
+                        weatherActivity.requestWeather(weatherId);
+
+                    }
+
 
                 }
 
