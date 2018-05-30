@@ -1,6 +1,7 @@
 package com.example.qq910.coolweathermy;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,14 +45,17 @@ public class ChooseFragment extends Fragment {
     private ListView mListView;
     private List<String> dataList = new ArrayList<>();
     private int currentLevel;//当前级别
-    private List<Province> mProvinceList;
-    //    private List<Province> mProvinceList = new ArrayList<>();     ///////////////////试试把上面的换成这里的
-    private List<City> mCityList;
-    private List<County> mCountyList;
+    //    private List<Province> mProvinceList;
+        private List<Province> mProvinceList = new ArrayList<>();     ///////////////////试试把上面的换成这里的
+//    private List<City> mCityList;
+    private List<City> mCityList = new ArrayList<>();///////////////////////////
+    //    private List<County> mCountyList;
+    private List<County> mCountyList = new ArrayList<>();///////////////////////////
     private Province mSelectedProvince;//选中的省份
     private City mSelectedCity;
     private ArrayAdapter<String> mAdapter;
     private ProgressDialog mProgressDialog;
+    private County mSelectedCounty;
 
     @Nullable
     @Override
@@ -77,6 +81,13 @@ public class ChooseFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     mSelectedCity = mCityList.get(position);
                     questCounty();
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = mCountyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
+
                 }
 
             }
@@ -100,7 +111,7 @@ public class ChooseFragment extends Fragment {
         mTitleText.setText("China");
         mBackButton.setVisibility(View.GONE);
         mProvinceList = DataSupport.findAll(Province.class);
-        if (mProvinceList.size() > 0) {   /////////////////////////////// 试试mProvince !=null 看下行不行
+        if (mProvinceList.size() > 0) {
             dataList.clear();
             for (Province province : mProvinceList) {
                 dataList.add(province.getProvinceName());
@@ -152,7 +163,7 @@ public class ChooseFragment extends Fragment {
             int provinceCode = mSelectedProvince.getProvinceCode();
             int cityCode = mSelectedCity.getCityCode();
             String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
-            questFormService(address,"county");
+            questFormService(address, "county");
         }
     }
 
@@ -160,7 +171,7 @@ public class ChooseFragment extends Fragment {
         showProgressDialog();
         HttpUtil.sendOkhttpRequest(address, new Callback() {
 
-            private boolean mResult =false;
+            private boolean mResult = false;
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -180,9 +191,9 @@ public class ChooseFragment extends Fragment {
                 if ("province".equals(type)) {
                     mResult = Utillity.handleProvinceResponse(responsrText);
                 } else if ("city".equals(type)) {
-                    mResult = Utillity.handleCityResponse(responsrText,mSelectedProvince.getId());
+                    mResult = Utillity.handleCityResponse(responsrText, mSelectedProvince.getId());
                 } else if ("county".equals(type)) {
-                    mResult = Utillity.handleCountyResponse(responsrText,mSelectedCity.getId());
+                    mResult = Utillity.handleCountyResponse(responsrText, mSelectedCity.getId());
                 }
 
                 if (mResult) {
@@ -213,7 +224,7 @@ public class ChooseFragment extends Fragment {
         mProgressDialog.show();
     }
 
-    private void closeProgressDialog(){
+    private void closeProgressDialog() {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
