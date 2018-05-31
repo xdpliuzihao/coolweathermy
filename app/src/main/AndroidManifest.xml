@@ -7,7 +7,7 @@
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/iiilzh11"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -24,7 +24,13 @@
         <service
             android:name=".service.MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="com.example.qq910.coolweathermy.provider"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

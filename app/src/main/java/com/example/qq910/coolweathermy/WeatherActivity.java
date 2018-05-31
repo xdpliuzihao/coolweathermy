@@ -98,6 +98,7 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     private void initData() {
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherResponse = sharedPreferences.getString("weather", null);
         if (weatherResponse != null) {
@@ -234,6 +235,6 @@ public class WeatherActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MyService.class);
         startService(intent);
-        
+
     }
 }
