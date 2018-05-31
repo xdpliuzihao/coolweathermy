@@ -1,5 +1,6 @@
 package com.example.qq910.coolweathermy;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.qq910.coolweathermy.gson.Forecast;
 import com.example.qq910.coolweathermy.gson.Weather;
+import com.example.qq910.coolweathermy.service.MyService;
 import com.example.qq910.coolweathermy.util.HttpUtil;
 import com.example.qq910.coolweathermy.util.Utillity;
 
@@ -229,5 +231,9 @@ public class WeatherActivity extends AppCompatActivity {
         mTvCw.setText(sugInfo2);
         mTvSport.setText(sugInfo3);
         mWeatherLayout.setVisibility(View.VISIBLE);
+
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
+        
     }
 }
